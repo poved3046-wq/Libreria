@@ -1,0 +1,89 @@
+### =========================
+### AUTORES
+### =========================
+
+### 1. Crear autor
+POST http://localhost:3000/api/v1/authors
+Content-Type: application/json
+
+{
+  "name": "Gabriel García Márquez",
+  "nationality": "Colombiana",
+  "birthYear": 1927
+}
+
+
+### 2. Obtener todos los autores
+GET http://localhost:3000/api/v1/authors
+
+
+### 3. Obtener autor por ID
+GET http://localhost:3000/api/v1/authors/6abbed7b6e4d6a363d26a069
+
+
+### 4. Actualizar autor
+PUT http://localhost:3000/api/v1/authors/6abbed7b6e4d6a363d26a069
+Content-Type: application/json
+
+{
+  "nationality": "Colombiana"
+}
+
+
+### 5. Eliminar autor
+DELETE http://localhost:3000/api/v1/authors/6abbed7b6e4d6a363d26a069
+
+------------------------------------------------------------------------------------------
+
+### =========================
+### LIBROS
+### =========================
+
+### 1. Crear libro
+POST http://localhost:3000/api/v1/books
+Content-Type: application/json
+
+{
+  "title": "Cien años de soledad",
+  "isbn": "9780307474728",
+  "authorId": "6abbed7b6e4d6a363d26a069",
+  "year": 1967
+}
+
+
+### 2. Obtener todos los libros
+GET http://localhost:3000/api/v1/books
+
+---------------------------------------------------------------------------
+
+### =========================
+### PRÉSTAMOS
+### =========================
+
+### 1. Crear préstamo
+POST http://localhost:3000/api/v1/loans
+Content-Type: application/json
+
+{
+  "bookId": "6abc31081b6a43182243ef08",
+  "userName": "Daniela",
+  "loanDate": "2026-09-29"
+}
+
+### Devolver préstamo
+PUT http://localhost:3000/api/v1/loans/6abc35535b9a61d3805f3a0f
+Content-Type: application/json
+
+{
+  "returned": true
+}
+
+### Crear nuevo préstamo después de devolución
+POST http://localhost:3000/api/v1/loans
+Content-Type: application/json
+
+{
+  "bookId": "6abc31081b6a43182243ef08",
+  "userName": "Daniela",
+  "loanDate": "2026-09-29"
+}

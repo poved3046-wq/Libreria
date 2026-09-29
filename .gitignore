@@ -1,0 +1,21 @@
+node_modules/
+build/
+dist/
+
+# Variables de entorno (contienen credenciales)
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Sistema operativo / editor
+.DS_Store
+.idea/
+.vscode/
+*.tsbuildinfo
+
+desktop.ini

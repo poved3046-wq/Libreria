@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    /* Lenguaje y entorno */
+    "target": "ES2022",
+    "lib": ["ES2022"],
+
+    /* Módulos */
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "resolveJsonModule": true,
+
+    /* Emisión */
+    "outDir": "./build",
+    "sourceMap": true,
+    "removeComments": true,
+    "noEmitOnError": true,
+
+    /* Interoperabilidad */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Comprobación de tipos */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Rendimiento */
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build"]
+}
