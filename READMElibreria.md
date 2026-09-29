@@ -166,5 +166,4 @@ libreria
 ## 13. Pruebas
 
 Las pruebas de los endpoints se realizan utilizando Thunder Client
-
-
+Proyecto desarrollado para la asignatura de Programación III
