@@ -1,226 +1,169 @@
-# Todo API
+# Proyecto: API REST para la gestión de una Biblioteca
 
-API REST para gestionar tareas (todos), construida con **Node.js**, **Express 5**, **TypeScript** y **MongoDB**.
+**Asignatura:** Programación III  
+**Modalidad:** Individual 
 
-El proyecto sigue una arquitectura por capas (rutas → controlador → servicio → repositorio) que separa responsabilidades y facilita el mantenimiento y las pruebas.
+## 1. Descripción del proyecto
 
-## Tabla de contenidos
+API REST para la gestión de una biblioteca, desarrollada con Node.js, Express, TypeScript y MongoDB.
 
-- [Requisitos](#requisitos)
-- [Arquitectura y estructura](#arquitectura-y-estructura)
-- [Instalación](#instalación)
-- [Variables de entorno](#variables-de-entorno)
-- [Cómo levantar el proyecto](#cómo-levantar-el-proyecto)
-- [Endpoints](#endpoints)
-- [Modelo de datos](#modelo-de-datos)
-- [Manejo de errores](#manejo-de-errores)
+La API permite gestionar autores, libros y préstamos mediante operaciones CRUD.
 
-## Requisitos
+## 2. Tecnologías utilizadas
 
-- **Node.js** 18 o superior
-- **npm** 9 o superior
-- Una base de datos **MongoDB** (local o en la nube, por ejemplo MongoDB Atlas)
+- Node.js
+- Express
+- TypeScript
+- MongoDB
+- MongoDB Driver
+- Thunder Client
 
-## Arquitectura y estructura
+## 3. Arquitectura
 
-La aplicación separa las responsabilidades en capas bien definidas. El flujo de una petición es:
+El proyecto utiliza una arquitectura por capas:
 
-```
-Petición HTTP
-   │
-   ▼
-Rutas (task.routes.ts)          Definen los endpoints y aplican asyncHandler
-   │
-   ▼
-Controlador (task.controller.ts) Traduce HTTP <-> lógica; arma la respuesta
-   │
-   ▼
-Servicio (task.service.ts)       Reglas de negocio y validaciones
-   │
-   ▼
-Repositorio (task.repository.ts) Acceso directo a la colección de MongoDB
-   │
-   ▼
-MongoDB
-```
+- Rutas
+- Controladores
+- Servicios
+- Repositorios
+- Modelos
 
-Estructura de carpetas:
+    La estructura de cada módulo sigue el flujo:
 
-```
-todo-api/
+   ```text
+      Ruta → Controlador → Servicio → Repositorio → MongoDB
+
+## 4. Modulos 
+- Autores
+
+Permite crear, consultar, actualizar y eliminar autores
+
+- Libros
+
+Permite crear, consultar, actualizar y eliminar libros, relacionándolos con un autor
+
+- Prestamos
+
+Permite registrar préstamos y devoluciones de libros
+
+## 5. Estructura
+
+todo_api_main/
 ├── src/
 │   ├── api/
 │   │   └── v1/
-│   │       └── index.ts              # Enrutador raíz de la versión v1
+│   │       └── index.ts
 │   ├── config/
-│   │   ├── database.ts               # Conexión a MongoDB (connectDB / getDb)
-│   │   └── env.ts                    # Carga y validación de variables de entorno
+│   │   ├── database.ts
+│   │   └── env.ts
 │   ├── modules/
-│   │   └── tasks/
-│   │       ├── task.controller.ts    # Controlador HTTP
-│   │       ├── task.model.ts         # Interfaces Task + DTOs
-│   │       ├── task.repository.ts    # Operaciones sobre la colección
-│   │       ├── task.routes.ts        # Rutas del módulo de tareas
-│   │       └── task.service.ts       # Lógica de negocio y validaciones
+│   │   ├── Autores/
+│   │   │   ├── controlador.ts
+│   │   │   ├── modelo.ts
+│   │   │   ├── repositorio.ts
+│   │   │   ├── rutas.ts
+│   │   │   └── service.ts
+│   │   ├── Libro/
+│   │   │   ├── controlador.ts
+│   │   │   ├── modelo.ts
+│   │   │   ├── repositorio.ts
+│   │   │   ├── rutas.ts
+│   │   │   └── service.ts
+│   │   └── Prestamo/
+│   │       ├── controlador.ts
+│   │       ├── modelo.ts
+│   │       ├── repositorio.ts
+│   │       ├── rutas.ts
+│   │       └── service.ts
 │   ├── shared/
 │   │   ├── errors/
-│   │   │   └── AppError.ts           # AppError, BadRequestError, NotFoundError
+│   │   │   └── AppError.ts
 │   │   └── middlewares/
-│   │       ├── asyncHandler.ts       # Captura errores de controladores async
-│   │       └── errorHandler.ts       # Middleware 404 y de errores centralizado
-│   ├── app.ts                        # Configuración de Express y middlewares
-│   └── server.ts                     # Punto de entrada: conecta la BD y escucha
-├── .env.example                      # Plantilla de variables de entorno
+│   │       ├── asyncHandler.ts
+│   │       └── errorHandler.ts
+│   ├── app.ts
+│   └── server.ts
+├── .env.example
+├── .gitignore
 ├── package.json
+├── package-lock.json
+├── README.md
 └── tsconfig.json
-```
 
-### Middlewares aplicados
+## 6. Instalación
 
-En `app.ts` se registran, en orden:
+Instalar las dependencias del proyecto:
 
-- `express.json()` — parseo de cuerpos JSON.
-- `cors()` — habilita peticiones desde otros orígenes.
-- `compression()` — comprime las respuestas.
-- `helmet()` — cabeceras de seguridad HTTP.
-- `morgan("dev")` — registro de peticiones en consola.
+- npm install
 
-Al final se registran el middleware `notFound` (rutas inexistentes) y el `errorHandler` (manejo centralizado de errores).
+## 7. Configuración de variables de entorno
 
-## Instalación
+Crear un archivo .env en la raíz del proyecto
 
-Clona el repositorio e instala las dependencias:
+Ejemplo:
 
-```bash
-npm install
-```
+PORT=3000
+NODE_ENV=development
+MONGO_URI=tu_uri_de_mongodb
+MONGO_DB_NAME=libreria
 
-## Variables de entorno
 
-El proyecto lee la configuración desde un archivo `.env` en la raíz. Usa `.env.example` como plantilla:
+## 8. Ejecución
 
-```bash
-cp .env.example .env
-```
+Para ejecutar el proyecto en modo desarrollo:
 
-Variables disponibles:
-
-| Variable        | Descripción                                        | Requerida | Valor por defecto |
-| --------------- | -------------------------------------------------- | --------- | ----------------- |
-| `PORT`          | Puerto donde escucha el servidor HTTP              | No        | `3000`            |
-| `NODE_ENV`      | Entorno: `development`, `production` o `test`      | No        | `development`     |
-| `MONGO_URI`     | Cadena de conexión de MongoDB                      | **Sí**    | —                 |
-| `MONGO_DB_NAME` | Nombre de la base de datos                         | No        | `collaborate`     |
-
-> Si `MONGO_URI` no está definida, la aplicación falla al arrancar con un mensaje claro. El archivo `.env` está en `.gitignore`, así que las credenciales no se suben al repositorio.
-
-## Cómo levantar el proyecto
-
-### Modo desarrollo
-
-Usa recarga automática con `nodemon` + `ts-node`:
-
-```bash
 npm run dev
-```
 
-### Modo producción
+Para comprobar que el proyecto compila correctamente:
 
-Compila TypeScript a JavaScript y ejecuta el resultado:
+npm run build
 
-```bash
-npm run build   # genera la carpeta build/
-npm start       # ejecuta build/server.js
-```
+## 9. URL base
 
-Si todo está bien verás en consola:
+http://localhost:3000/api/v1
 
-```
-Conectado a MongoDB (db: collaborate)
-Servidor corriendo en el puerto 3000 [development]
-```
+## 10. Endpoints
 
-### Comprobar que está vivo
+### Autores
 
-```bash
-curl http://localhost:3000/health
-# { "status": "ok", "uptime": 12.34 }
-```
+POST | /authors | Crear autor
+GET | /authors | Listar autores
+GET | /authors/:id | Consultar autor por ID
+PUT | /authors/:id | Actualizar autor
+DELETE | /authors/:id | Eliminar autor
 
-## Endpoints
+### Libros
 
-Base URL: `http://localhost:3000/api/v1/task`
+POST | /books | Crear libro
+GET | /books | Listar libros
+GET | /books/:id | Consultar libro por ID
+PUT | /books/:id | Actualizar libro
+DELETE | /books/:id | Eliminar libro
 
-| Método   | Ruta         | Descripción                       | Cuerpo (JSON)                                  | Respuesta |
-| -------- | ------------ | --------------------------------- | ---------------------------------------------- | --------- |
-| `POST`   | `/`          | Crea una tarea                    | `{ "title", "description", "isDone?" }`        | `201`     |
-| `GET`    | `/`          | Lista todas las tareas            | —                                              | `200`     |
-| `GET`    | `/:id`       | Obtiene una tarea por su id       | —                                              | `200`     |
-| `PUT`    | `/:id`       | Actualiza una tarea (parcial)     | `{ "title?", "description?", "isDone?" }`      | `200`     |
-| `DELETE` | `/:id`       | Elimina una tarea                 | —                                              | `204`     |
+### Préstamos
 
-Además existe `GET /health` para verificar el estado del servicio.
+POST | /loans | Crear préstamo
+GET | /loans | Listar préstamos
+GET | /loans/:id | Consultar préstamo por ID
+PUT | /loans/:id | Actualizar préstamo
+DELETE | /loans/:id | Eliminar préstamo
 
-### Ejemplos con curl
+## 11. Reglas de negocio
 
-Crear una tarea:
+1. No se puede eliminar un autor que tenga libros asociados
+2. Un libro solamente puede prestarse si está disponible
+3. Al realizar un préstamo, el libro pasa a estar no disponible
+4. Al devolver un libro, se registra la fecha de devolución y el libro vuelve a estar disponible
 
-```bash
-curl -X POST http://localhost:3000/api/v1/task \
-  -H "Content-Type: application/json" \
-  -d '{"title": "Estudiar", "description": "Repasar Express y MongoDB"}'
-```
+## 12. Base de datos
 
-Listar tareas:
+La aplicación utiliza MongoDB.
 
-```bash
-curl http://localhost:3000/api/v1/task
-```
+Nombre de la base de datos:
 
-Actualizar el estado de una tarea:
+libreria
 
-```bash
-curl -X PUT http://localhost:3000/api/v1/task/<id> \
-  -H "Content-Type: application/json" \
-  -d '{"isDone": true}'
-```
+## 13. Pruebas
 
-Eliminar una tarea:
-
-```bash
-curl -X DELETE http://localhost:3000/api/v1/task/<id>
-```
-
-## Modelo de datos
-
-Una tarea (`Task`) almacenada en MongoDB tiene la siguiente forma:
-
-```ts
-{
-  _id: ObjectId,        // generado por MongoDB
-  title: string,        // obligatorio, texto no vacío
-  description: string,  // obligatorio, texto no vacío
-  isDone: boolean,      // por defecto false
-  createdAt: Date,      // fecha de creación
-  updatedAt: Date       // fecha de última actualización
-}
-```
-
-Al crear o actualizar se usa un único DTO (`TaskDTO`) con todos los campos opcionales; el servicio decide qué es obligatorio según la operación (crear exige `title` y `description`, actualizar acepta cambios parciales).
-
-## Manejo de errores
-
-Las respuestas de error siguen un formato consistente:
-
-```json
-{
-  "status": "error",
-  "message": "Descripción del problema"
-}
-```
-
-Códigos usados:
-
-- `400 Bad Request` — datos inválidos o faltantes (por ejemplo un `title` vacío o un id con formato incorrecto).
-- `404 Not Found` — la tarea no existe o la ruta no está registrada.
-- `500 Internal Server Error` — error inesperado del servidor. En `development` se incluye el stack trace; en `production` se oculta.
+Las pruebas de los endpoints se realizan utilizando Thunder Client
+Proyecto desarrollado para la asignatura de Programación III
