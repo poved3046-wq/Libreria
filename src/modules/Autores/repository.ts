@@ -1,6 +1,6 @@
 import { Collection, ObjectId } from "mongodb";
 import { getDb } from "../../config/database";
-import { Author } from "./modelo";
+import { Author } from "./model";
 
 export class AuthorRepository {
 

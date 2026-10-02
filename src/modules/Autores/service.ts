@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
-import { Author, AuthorDTO } from "./modelo";
-import { AuthorRepository } from "./repositorio";
+import { Author, AuthorDTO } from "./model";
+import { AuthorRepository } from "./repository";
 import {
     BadRequestError,
     NotFoundError
