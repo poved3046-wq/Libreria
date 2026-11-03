@@ -1,14 +1,14 @@
 import { Collection, ObjectId } from "mongodb";
 import { getDb } from "../../config/database";
-import { Loan } from "./modelo";
+import { Book } from "./model";
 
-export class LoanRepository {
-    private collection(): Collection<Loan> {
-        return getDb().collection<Loan>("loans");
+export class BookRepository {
+    private collection(): Collection<Book> {
+        return getDb().collection<Book>("books");
     }
 
-    async create(data: Omit<Loan, "_id">): Promise<Loan> {
-        const result = await this.collection().insertOne(data as Loan);
+    async create(data: Omit<Book, "_id">): Promise<Book> {
+        const result = await this.collection().insertOne(data as Book);
 
         return {
             _id: result.insertedId,
@@ -16,21 +16,21 @@ export class LoanRepository {
         };
     }
 
-    async findAll(): Promise<Loan[]> {
+    async findAll(): Promise<Book[]> {
         return this.collection()
             .find()
             .sort({ createdAt: -1 })
             .toArray();
     }
 
-    async findById(id: ObjectId): Promise<Loan | null> {
+    async findById(id: ObjectId): Promise<Book | null> {
         return this.collection().findOne({ _id: id });
     }
 
     async update(
         id: ObjectId,
-        changes: Partial<Loan>
-    ): Promise<Loan | null> {
+        changes: Partial<Book>
+    ): Promise<Book | null> {
         const result = await this.collection().findOneAndUpdate(
             { _id: id },
             { $set: changes },
@@ -44,5 +44,11 @@ export class LoanRepository {
         const result = await this.collection().deleteOne({ _id: id });
 
         return result.deletedCount === 1;
+    }
+
+    async existsByIsbn(isbn: string): Promise<boolean> {
+        const book = await this.collection().findOne({ isbn });
+
+        return book !== null;
     }
 }

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import authorRoutes from "../../modules/Autores/rutas";
-import bookRoutes from "../../modules/Libro/rutas";
-import loanRoutes from "../../modules/Prestamo/rutas";
+import authorRoutes from "../../modules/Autores/rutes";
+import bookRoutes from "../../modules/Libro/rutes";
+import loanRoutes from "../../modules/Prestamo/rutes";
 
 const router = Router();
 

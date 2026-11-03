@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { LoanController } from "./controlador";
+import { LoanController } from "./controller";
 import { asyncHandler } from "../../shared/middlewares/asyncHandler";
 
 const router = Router();

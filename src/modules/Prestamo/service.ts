@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
-import { Loan, LoanDTO } from "./modelo";
-import { LoanRepository } from "./repositorio";
-import { BookRepository } from "../Libro/repositorio";
+import { Loan, LoanDTO } from "./model";
+import { LoanRepository } from "./repository";
+import { BookRepository } from "../Libro/repository";
 import {
     BadRequestError,
     NotFoundError

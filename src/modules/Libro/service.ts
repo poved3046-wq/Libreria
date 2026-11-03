@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
-import { Book, BookDTO } from "./modelo";
-import { BookRepository } from "./repositorio";
+import { Book, BookDTO } from "./model";
+import { BookRepository } from "./repository";
 import {
     BadRequestError,
     NotFoundError
