@@ -1,0 +1,805 @@
+
+<div class="app-container">
+
+  <!-- BARRA LATERAL -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <img src="/assets/honguito.png" alt="Honguito" class="brand-mascot">
+      <h2>Biblioteca<br>del Bosque</h2>
+      <p>El rincón de las historias</p>
+    </div>
+
+    <nav class="menu">
+      <button
+        [class.active]="seccion === 'autores'"
+        (click)="cambiarSeccion('autores')">
+        <span>✒️</span> Autores
+      </button>
+
+      <button
+        [class.active]="seccion === 'libros'"
+        (click)="cambiarSeccion('libros')">
+        <span>📚</span> Libros
+      </button>
+
+      <button
+        [class.active]="seccion === 'prestamos'"
+        (click)="cambiarSeccion('prestamos')">
+        <span>📖</span> Préstamos
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <img src="/assets/gatitos_libro.png" alt="Gatitos leyendo">
+      <p>Un pequeño bosque de historias ✨</p>
+    </div>
+
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-content">
+
+    <!-- ENCABEZADO DEL BOSQUE -->
+    <header class="hero">
+
+      <div class="hero-copy">
+        <span class="eyebrow">BIENVENIDO A NUESTRO RINCÓN MÁGICO</span>
+
+        <h1>
+          {{ seccion === 'autores'
+            ? 'Nuestros autores'
+            : seccion === 'libros'
+              ? 'Nuestra colección'
+              : 'Préstamos del bosque' }}
+        </h1>
+
+        <p>
+          {{ seccion === 'autores'
+            ? 'Cada historia comienza con alguien que se atreve a escribir.'
+            : seccion === 'libros'
+              ? 'Descubre mundos maravillosos entre nuestras páginas.'
+              : 'Cada préstamo es una nueva aventura.' }}
+        </p>
+
+        <div class="hero-divider">✦ ───── ❀ ───── ✦</div>
+      </div>
+
+    </header>
+
+    <!-- ======================================
+         MENÚ DE DOS TARJETAS POR CATEGORÍA
+    ======================================= -->
+
+    <section class="home-section" *ngIf="vista === 'menu'">
+
+      <div class="home-cards">
+
+        <!-- AUTORES -->
+        <ng-container *ngIf="seccion === 'autores'">
+
+          <article class="home-card">
+
+            <div class="home-card-image">
+              <img src="/assets/agregar.png" alt="Libro y pluma">
+            </div>
+
+            <div class="home-card-content">
+              <span class="card-category">ESCRITORES</span>
+              <h2>Agregar autor</h2>
+              <p>Completa los datos del escritor.</p>
+
+              <button (click)="abrirVista('formulario')">
+                + Nuevo autor
+              </button>
+            </div>
+
+          </article>
+
+          <article class="home-card">
+
+            <div class="home-card-image">
+              <img src="/assets/libros_agregados.png" alt="Libros de autores">
+            </div>
+
+            <div class="home-card-content">
+              <span class="card-category">ESCRITORES</span>
+              <h2>Autores registrados</h2>
+              <p>Personas que dan vida a nuestras historias.</p>
+
+              <button (click)="abrirVista('lista')">
+                ☷ Ver autores
+              </button>
+            </div>
+
+          </article>
+
+        </ng-container>
+
+        <!-- LIBROS -->
+        <ng-container *ngIf="seccion === 'libros'">
+
+          <article class="home-card">
+
+            <div class="home-card-image">
+              <img src="/assets/nuevo_libro.png" alt="Nuevo libro">
+            </div>
+
+            <div class="home-card-content">
+              <span class="card-category">COLECCIÓN</span>
+              <h2>Agregar libro</h2>
+              <p>Incorpora nuevas historias a nuestra biblioteca.</p>
+
+              <button (click)="abrirVista('formulario')">
+                + Nuevo libro
+              </button>
+            </div>
+
+          </article>
+
+          <article class="home-card">
+
+            <div class="home-card-image">
+              <img src="/assets/libros_registrados.png" alt="Libros registrados">
+            </div>
+
+            <div class="home-card-content">
+              <span class="card-category">COLECCIÓN</span>
+              <h2>Libros registrados</h2>
+              <p>Consulta y administra nuestros ejemplares.</p>
+
+              <button (click)="abrirVista('lista')">
+                ☷ Ver libros
+              </button>
+            </div>
+
+          </article>
+
+        </ng-container>
+
+        <!-- PRÉSTAMOS -->
+        <ng-container *ngIf="seccion === 'prestamos'">
+
+          <article class="home-card">
+
+            <div class="home-card-image">
+              <img src="/assets/hacer_prestamo.png" alt="Realizar préstamo">
+            </div>
+
+            <div class="home-card-content">
+              <span class="card-category">LECTORES</span>
+              <h2>Realizar préstamo</h2>
+              <p>Prepara una nueva aventura para un lector.</p>
+
+              <button (click)="abrirVista('formulario')">
+                + Nuevo préstamo
+              </button>
+            </div>
+
+          </article>
+
+          <article class="home-card">
+
+            <div class="home-card-image">
+              <img src="/assets/prestamos_registrados.png" alt="Préstamos registrados">
+            </div>
+
+            <div class="home-card-content">
+              <span class="card-category">LECTORES</span>
+              <h2>Préstamos registrados</h2>
+              <p>Consulta los libros prestados y sus devoluciones.</p>
+
+              <button (click)="abrirVista('lista')">
+                ☷ Ver préstamos
+              </button>
+            </div>
+
+          </article>
+
+        </ng-container>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================
+         AUTORES: FORMULARIO
+    ======================================= -->
+
+    <section
+      *ngIf="seccion === 'autores' && vista === 'formulario'"
+      class="detail-section">
+
+      <button class="back-button" (click)="volverAlMenu()">
+        ← Volver a las opciones
+      </button>
+
+      <div class="detail-heading">
+        <span class="eyebrow">EL RINCÓN DE LOS ESCRITORES</span>
+        <h2>{{ editando ? 'Editar autor' : 'Agregar autor' }}</h2>
+        <p>Completa los datos para registrar un nuevo escritor.</p>
+      </div>
+
+      <article class="content-panel form-panel">
+
+        <div class="panel-heading">
+          <div>
+            <span class="card-category">NUEVA HISTORIA</span>
+            <h3>{{ editando ? 'Actualizar información' : 'Datos del autor' }}</h3>
+            <p>Los campos marcados son obligatorios.</p>
+          </div>
+          <span class="panel-icon">✒️</span>
+        </div>
+
+        <form (ngSubmit)="guardarAutor()" class="data-form">
+
+          <div class="form-field">
+            <label for="nombreAutor">Nombre completo</label>
+            <input
+              id="nombreAutor"
+              name="nombreAutor"
+              type="text"
+              [(ngModel)]="autor.name"
+              placeholder="Nombre del autor"
+              required>
+          </div>
+
+          <div class="form-field">
+            <label for="nacionalidad">Nacionalidad</label>
+            <input
+              id="nacionalidad"
+              name="nacionalidad"
+              type="text"
+              [(ngModel)]="autor.nationality"
+              placeholder="Ej. Colombiana"
+              required>
+          </div>
+
+          <div class="form-field">
+            <label for="nacimiento">Año de nacimiento</label>
+            <input
+              id="nacimiento"
+              name="nacimiento"
+              type="number"
+              [(ngModel)]="autor.birthYear"
+              placeholder="Ej. 1927">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="primary-button">
+              {{ editando ? 'Guardar cambios' : '+ Registrar autor' }}
+            </button>
+
+            <button
+              type="button"
+              class="secondary-button"
+              *ngIf="editando"
+              (click)="limpiarFormulario()">
+              Cancelar edición
+            </button>
+          </div>
+
+        </form>
+
+        <p class="error-message" *ngIf="error">{{ error }}</p>
+
+      </article>
+
+    </section>
+
+    <!-- ======================================
+         AUTORES: LISTADO
+    ======================================= -->
+
+    <section
+      *ngIf="seccion === 'autores' && vista === 'lista'"
+      class="detail-section">
+
+      <button class="back-button" (click)="volverAlMenu()">
+        ← Volver a las opciones
+      </button>
+
+      <div class="detail-heading">
+        <span class="eyebrow">CATÁLOGO DE ESCRITORES</span>
+        <h2>Autores registrados</h2>
+        <p>Personas que dan vida a nuestras historias.</p>
+      </div>
+
+      <article class="content-panel catalog-panel">
+
+        <div class="panel-heading">
+          <div>
+            <h3>Listado de autores</h3>
+            <p>{{ autores.length }} autores en nuestra biblioteca.</p>
+          </div>
+          <span class="panel-icon">📚</span>
+        </div>
+
+        <p *ngIf="cargando" class="empty-message">
+          Cargando autores...
+        </p>
+
+        <div class="table-container" *ngIf="!cargando">
+
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Nacionalidad</th>
+                <th>Nacimiento</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of autores">
+                <td class="strong-cell">{{ item.name }}</td>
+                <td>{{ item.nationality }}</td>
+                <td>{{ item.birthYear || '—' }}</td>
+                <td class="actions">
+                  <button
+                    type="button"
+                    class="edit-button"
+                    (click)="editarAutor(item)">
+                    Editar
+                  </button>
+
+                  <button
+                    type="button"
+                    class="delete-button"
+                    (click)="eliminarAutor(item._id)">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+
+              <tr *ngIf="autores.length === 0">
+                <td colspan="4" class="empty-message">
+                  Todavía no hay autores registrados.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <p class="error-message" *ngIf="error">{{ error }}</p>
+
+      </article>
+
+    </section>
+
+    <!-- ======================================
+         LIBROS: FORMULARIO
+    ======================================= -->
+
+    <section
+      *ngIf="seccion === 'libros' && vista === 'formulario'"
+      class="detail-section">
+
+      <button class="back-button" (click)="volverAlMenu()">
+        ← Volver a las opciones
+      </button>
+
+      <div class="detail-heading">
+        <span class="eyebrow">EL ARCHIVO DE LAS HISTORIAS</span>
+        <h2>{{ editandoLibro ? 'Editar libro' : 'Agregar libro' }}</h2>
+        <p>Registra los datos de un nuevo ejemplar.</p>
+      </div>
+
+      <article class="content-panel form-panel">
+
+        <div class="panel-heading">
+          <div>
+            <span class="card-category">COLECCIÓN</span>
+            <h3>Datos del libro</h3>
+            <p>Completa la información del ejemplar.</p>
+          </div>
+          <span class="panel-icon">📖</span>
+        </div>
+
+        <form (ngSubmit)="guardarLibro()" class="data-form">
+
+          <div class="form-field">
+            <label for="tituloLibro">Título</label>
+            <input
+              id="tituloLibro"
+              name="tituloLibro"
+              type="text"
+              [(ngModel)]="libro.title"
+              placeholder="Título del libro"
+              required>
+          </div>
+
+          <div class="form-field">
+            <label for="isbn">ISBN</label>
+            <input
+              id="isbn"
+              name="isbn"
+              type="text"
+              [(ngModel)]="libro.isbn"
+              placeholder="Código ISBN"
+              required>
+          </div>
+
+          <div class="form-field">
+            <label for="autorLibro">Autor</label>
+            <select
+              id="autorLibro"
+              name="autorLibro"
+              [(ngModel)]="libro.authorId"
+              required>
+
+              <option value="">Selecciona un autor</option>
+
+              <option *ngFor="let item of autores" [value]="item._id">
+                {{ item.name }}
+              </option>
+
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="anioLibro">Año de publicación</label>
+            <input
+              id="anioLibro"
+              name="anioLibro"
+              type="number"
+              [(ngModel)]="libro.year"
+              placeholder="Ej. 1967">
+          </div>
+
+          <div class="form-field">
+            <label for="disponibilidad">Disponibilidad</label>
+            <select
+              id="disponibilidad"
+              name="disponibilidad"
+              [(ngModel)]="libro.available">
+
+              <option [ngValue]="true">Disponible</option>
+              <option [ngValue]="false">No disponible</option>
+
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="primary-button">
+              {{ editandoLibro ? 'Guardar cambios' : '+ Registrar libro' }}
+            </button>
+
+            <button
+              type="button"
+              class="secondary-button"
+              *ngIf="editandoLibro"
+              (click)="limpiarFormularioLibro()">
+              Cancelar edición
+            </button>
+          </div>
+
+        </form>
+
+        <p class="error-message" *ngIf="errorLibro">
+          {{ errorLibro }}
+        </p>
+
+      </article>
+
+    </section>
+
+    <!-- ======================================
+         LIBROS: LISTADO
+    ======================================= -->
+
+    <section
+      *ngIf="seccion === 'libros' && vista === 'lista'"
+      class="detail-section">
+
+      <button class="back-button" (click)="volverAlMenu()">
+        ← Volver a las opciones
+      </button>
+
+      <div class="detail-heading">
+        <span class="eyebrow">EL ARCHIVO DE LAS HISTORIAS</span>
+        <h2>Libros registrados</h2>
+        <p>Consulta y administra los ejemplares de la biblioteca.</p>
+      </div>
+
+      <article class="content-panel catalog-panel">
+
+        <div class="panel-heading">
+          <div>
+            <h3>Nuestra colección</h3>
+            <p>{{ libros.length }} libros registrados.</p>
+          </div>
+          <span class="panel-icon">📚</span>
+        </div>
+
+        <p *ngIf="cargandoLibros" class="empty-message">
+          Cargando libros...
+        </p>
+
+        <div class="table-container" *ngIf="!cargandoLibros">
+
+          <table>
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>ISBN</th>
+                <th>Autor</th>
+                <th>Año</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of libros">
+                <td class="strong-cell">{{ item.title }}</td>
+                <td>{{ item.isbn }}</td>
+                <td>{{ obtenerNombreAutor(item.authorId) }}</td>
+                <td>{{ item.year || '—' }}</td>
+
+                <td>
+                  <span
+                    [class.available]="item.available"
+                    [class.unavailable]="!item.available">
+                    {{ item.available ? 'Disponible' : 'Prestado' }}
+                  </span>
+                </td>
+
+                <td class="actions">
+                  <button
+                    type="button"
+                    class="edit-button"
+                    (click)="editarLibro(item)">
+                    Editar
+                  </button>
+
+                  <button
+                    type="button"
+                    class="delete-button"
+                    (click)="eliminarLibro(item._id)">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+
+              <tr *ngIf="libros.length === 0">
+                <td colspan="6" class="empty-message">
+                  Todavía no hay libros registrados.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <p class="error-message" *ngIf="errorLibro">
+          {{ errorLibro }}
+        </p>
+
+      </article>
+
+    </section>
+
+    <!-- ======================================
+         PRÉSTAMOS: FORMULARIO
+    ======================================= -->
+
+    <section
+      *ngIf="seccion === 'prestamos' && vista === 'formulario'"
+      class="detail-section">
+
+      <button class="back-button" (click)="volverAlMenu()">
+        ← Volver a las opciones
+      </button>
+
+      <div class="detail-heading">
+        <span class="eyebrow">HISTORIAS QUE VIAJAN</span>
+        <h2>{{ editandoPrestamo ? 'Editar préstamo' : 'Realizar préstamo' }}</h2>
+        <p>Selecciona un libro y registra los datos del lector.</p>
+      </div>
+
+      <article class="content-panel form-panel">
+
+        <div class="panel-heading">
+          <div>
+            <span class="card-category">NUEVO PRÉSTAMO</span>
+            <h3>Datos del préstamo</h3>
+            <p>Completa la información para registrar la salida del libro.</p>
+          </div>
+          <span class="panel-icon">🍄</span>
+        </div>
+
+        <form (ngSubmit)="guardarPrestamo()" class="data-form">
+
+          <div class="form-field">
+            <label for="libroPrestamo">Libro</label>
+
+            <select
+              id="libroPrestamo"
+              name="libroPrestamo"
+              [(ngModel)]="prestamo.bookId"
+              required
+              [disabled]="editandoPrestamo">
+
+              <option value="">Selecciona un libro</option>
+
+              <option
+                *ngFor="let item of libros"
+                [value]="item._id"
+                [disabled]="!item.available && item._id !== prestamo.bookId">
+
+                {{ item.title }}
+                {{ !item.available && item._id !== prestamo.bookId ? '(No disponible)' : '' }}
+
+              </option>
+
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="nombreLector">Nombre del lector</label>
+            <input
+              id="nombreLector"
+              name="nombreLector"
+              type="text"
+              [(ngModel)]="prestamo.userName"
+              placeholder="Nombre completo"
+              required>
+          </div>
+
+          <div class="form-field">
+            <label for="fechaPrestamo">Fecha del préstamo</label>
+            <input
+              id="fechaPrestamo"
+              name="fechaPrestamo"
+              type="date"
+              [(ngModel)]="prestamo.loanDate"
+              required>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="primary-button">
+              {{ editandoPrestamo ? 'Guardar cambios' : '+ Registrar préstamo' }}
+            </button>
+
+            <button
+              type="button"
+              class="secondary-button"
+              *ngIf="editandoPrestamo"
+              (click)="limpiarFormularioPrestamo()">
+              Cancelar edición
+            </button>
+          </div>
+
+        </form>
+
+        <p class="error-message" *ngIf="errorPrestamo">
+          {{ errorPrestamo }}
+        </p>
+
+      </article>
+
+    </section>
+
+    <!-- ======================================
+         PRÉSTAMOS: LISTADO
+    ======================================= -->
+
+    <section
+      *ngIf="seccion === 'prestamos' && vista === 'lista'"
+      class="detail-section">
+
+      <button class="back-button" (click)="volverAlMenu()">
+        ← Volver a las opciones
+      </button>
+
+      <div class="detail-heading">
+        <span class="eyebrow">HISTORIAS QUE VIAJAN</span>
+        <h2>Préstamos registrados</h2>
+        <p>Consulta los libros prestados y administra las devoluciones.</p>
+      </div>
+
+      <article class="content-panel catalog-panel">
+
+        <div class="panel-heading">
+          <div>
+            <h3>Registro de movimientos</h3>
+            <p>{{ prestamos.length }} préstamos registrados.</p>
+          </div>
+          <span class="panel-icon">📖</span>
+        </div>
+
+        <p *ngIf="cargandoPrestamos" class="empty-message">
+          Cargando préstamos...
+        </p>
+
+        <div class="table-container" *ngIf="!cargandoPrestamos">
+
+          <table>
+            <thead>
+              <tr>
+                <th>Libro</th>
+                <th>Lector</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of prestamos">
+
+                <td class="strong-cell">
+                  {{ obtenerNombreLibro(item.bookId) }}
+                </td>
+
+                <td>{{ item.userName }}</td>
+
+                <td>{{ item.loanDate | date:'dd/MM/yyyy' }}</td>
+
+                <td>
+                  <span
+                    [class.available]="item.returned"
+                    [class.unavailable]="!item.returned">
+                    {{ item.returned ? 'Devuelto' : 'Prestado' }}
+                  </span>
+                </td>
+
+                <td class="actions">
+
+                  <button
+                    type="button"
+                    class="edit-button"
+                    *ngIf="!item.returned"
+                    (click)="editarPrestamo(item)">
+                    Editar
+                  </button>
+
+                  <button
+                    type="button"
+                    class="return-button"
+                    *ngIf="!item.returned"
+                    (click)="devolverPrestamo(item._id)">
+                    Devolver
+                  </button>
+
+                  <button
+                    type="button"
+                    class="delete-button"
+                    (click)="eliminarPrestamo(item._id)">
+                    Eliminar
+                  </button>
+
+                </td>
+
+              </tr>
+
+              <tr *ngIf="prestamos.length === 0">
+                <td colspan="5" class="empty-message">
+                  Todavía no hay préstamos registrados.
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+
+        <p class="error-message" *ngIf="errorPrestamo">
+          {{ errorPrestamo }}
+        </p>
+
+      </article>
+
+    </section>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="footer">
+      🌿 Biblioteca del Bosque · Un mundo de historias por descubrir
+    </footer>
+
+  </main>
+
+</div>

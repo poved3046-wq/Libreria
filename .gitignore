@@ -18,4 +18,10 @@ npm-debug.log*
 .vscode/
 *.tsbuildinfo
 
+desktop.ini# Configuraciones personales de herramientas
+frontend/.codex/
+frontend/.cursor/
+frontend/.gemini/
+frontend/.mcp.json
+
 desktop.ini

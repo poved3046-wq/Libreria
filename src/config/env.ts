@@ -14,5 +14,5 @@ export const env = {
     port: Number(process.env.PORT) || 3000,
     nodeEnv: process.env.NODE_ENV || "development",
     mongoUri: required("MONGO_URI") || "URL_MONGO_AQUI",
-    mongoDBName: process.env.MONGO_DB_NAME || "collaborate",
+    mongoDBName: process.env.MONGO_DB_NAME || "libreria",
 };
