@@ -11,7 +11,7 @@ export class LibroService {
 
   private http = inject(HttpClient);
 
-  private api = 'http://localhost:3000/api/v1/books';
+  private api = 'https://libreria-5vr9.onrender.com/api/v1/books';
 
   obtenerLibros(): Observable<Libro[]> {
     return this.http.get<Libro[]>(this.api);

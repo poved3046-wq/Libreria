@@ -11,7 +11,7 @@ export class AutorService {
 
   private http = inject(HttpClient);
 
-  private api = 'http://localhost:3000/api/v1/authors';
+  private api = 'https://libreria-5vr9.onrender.com/api/v1/authors';
 
   obtenerAutores(): Observable<Autor[]> {
     return this.http.get<Autor[]>(this.api);
